@@ -4,7 +4,7 @@ import { QuoteFormComponent } from './quote-form/quote-form.component';
 
 const routes: Routes = [
   {
-    path: 'new-quote',
+    path: '',
     component: QuoteFormComponent,
   },
 ];

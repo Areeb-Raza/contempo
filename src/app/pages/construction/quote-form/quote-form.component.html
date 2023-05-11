@@ -1,0 +1,640 @@
+<img
+  class="h-[20vh] w-[100%] object-cover object-center"
+  src="assets/banner.jpg"
+  alt=""
+/>
+<div nz-row nzJustify="center">
+  <img class="w-[250px]" src="assets/logo.png" alt="" />
+</div>
+
+<h1 nz-typography class="text-center mb-4 mt-0">Contempo Construction Quote</h1>
+<div nz-row nzJustify="center" class="pb-4">
+  <div nz-col nzXs="22" nzSm="18" nzMd="10" nzXl="8" nzXXl="6">
+    <form
+      nz-form
+      [formGroup]="validateForm"
+      (ngSubmit)="submitForm()"
+      nzLayout="vertical"
+    >
+      <div nz-row [nzGutter]="[8, 0]" class="my-2" nzJustify="space-between">
+        <div nz-col>
+          <button
+            nz-button
+            nzType="primary"
+            nzGhost
+            class="w-[120px]"
+            [disabled]="currentStep == 1"
+            (click)="decrementcurrentStep()"
+          >
+            <span nz-icon nzType="left" class="align-baseline"></span>
+            Previous
+          </button>
+        </div>
+        <div nz-col>
+          <button
+            (click)="incrementcurrentStep()"
+            nz-button
+            nzType="primary"
+            class="w-[120px]"
+            [disabled]="!nextButton"
+          >
+            {{ currentStep == 5 ? "Submit" : "Next" }}
+            <span
+              *ngIf="currentStep != 5"
+              nz-icon
+              nzType="right"
+              class="align-baseline"
+            ></span>
+          </button>
+        </div>
+      </div>
+
+      <ng-container *ngIf="currentStep == 1">
+        <nz-form-item>
+          <nz-form-label for=""
+            ><span
+              class="text-lg font-medium"
+              nzTooltipTitle="Required"
+              nzTooltipPlacement="right"
+              nz-tooltip
+            >
+              Sales Person<span class="text-red-600">*</span></span
+            ></nz-form-label
+          >
+          <nz-select class="w-full" nzPlaceHolder="Select">
+            <nz-option nzValue="jack" nzLabel="Jay"></nz-option>
+            <nz-option nzValue="lucy" nzLabel="Morgon"></nz-option>
+          </nz-select>
+        </nz-form-item>
+        <nz-form-label
+          ><span
+            class="text-xl font-medium"
+            nzTooltipTitle="Required"
+            nzTooltipPlacement="right"
+            nz-tooltip
+          >
+            Customer Information<span class="text-red-600">*</span>
+          </span></nz-form-label
+        >
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group>
+              <input
+                type="text"
+                nz-input
+                formControlName="fullName"
+                placeholder="Full Name"
+                nzSize="large"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group>
+              <input
+                type="number"
+                nz-input
+                formControlName="phoneNumber"
+                placeholder="Phone Number"
+                nzSize="large"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group>
+              <input
+                type="email"
+                nz-input
+                formControlName="email"
+                placeholder="Email"
+                nzSize="large"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group>
+              <input
+                type="textarea"
+                nz-input
+                formControlName="address"
+                placeholder="Address"
+                nzSize="large"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <app-question
+          [question]="'Does the Customer want to change the Floorplan?'"
+          [questionType]="'polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [questionLabel]="'change_floor_plan'"
+        ></app-question>
+
+        <ng-container *ngIf="getControl('change_floor_plan')?.value">
+          <app-question
+            [question]="'Do we need to Remove Walls?'"
+            [questionType]="'polar'"
+            (selectedChoice)="getSelectedChoice($event)"
+            [questionLabel]="'remove_walls'"
+          ></app-question>
+          <ng-container *ngIf="getControl('remove_walls')?.value">
+            <app-question
+              [question]="'Is Wall #1 a Loading Bearing Wall?'"
+              [questionType]="'polar'"
+              (selectedChoice)="getSelectedChoice($event)"
+              [hasTextField]="true"
+              [questionLabel]="'load_bearing_1'"
+            ></app-question>
+            <ng-container *ngIf="getControl('load_bearing_1')?.value != ''"
+              ><app-question
+                [question]="'Is there a Second Wall to Remove?'"
+                [questionType]="'polar'"
+                (selectedChoice)="getSelectedChoice($event)"
+                [questionLabel]="'remove_second_wall'"
+              ></app-question>
+              <ng-container *ngIf="getControl('remove_second_wall')?.value"
+                ><app-question
+                  [question]="'Is Wall#2 a Loading Bearing Wall?'"
+                  [questionType]="'polar'"
+                  (selectedChoice)="getSelectedChoice($event)"
+                  [hasTextField]="true"
+                  [questionLabel]="'load_bearing_2'"
+                ></app-question>
+                <ng-container *ngIf="getControl('load_bearing_2')?.value != ''">
+                  <app-question
+                    [question]="'Is there a Third Wall to Remove?'"
+                    [questionType]="'polar'"
+                    (selectedChoice)="getSelectedChoice($event)"
+                    [questionLabel]="'remove_third_wall'"
+                  ></app-question>
+                  <ng-container *ngIf="getControl('remove_third_wall')?.value">
+                    <app-question
+                      [question]="'Is Wall#3 a Loading Bearing Wall?'"
+                      [questionType]="'polar'"
+                      (selectedChoice)="getSelectedChoice($event)"
+                      [hasTextField]="true"
+                      [questionLabel]="'load_bearing_3'"
+                    ></app-question>
+                    <ng-container
+                      *ngIf="getControl('load_bearing_3')?.value != ''"
+                    >
+                      <app-question
+                        [question]="'Is there a Fourth Wall to Remove?'"
+                        [questionType]="'polar'"
+                        (selectedChoice)="getSelectedChoice($event)"
+                        [questionLabel]="'remove_fourth_wall'"
+                      ></app-question>
+
+                      <app-question
+                        *ngIf="getControl('remove_fourth_wall')?.value"
+                        [question]="'Is Wall#4 a Loading Bearing Wall?'"
+                        [questionType]="'polar'"
+                        (selectedChoice)="getSelectedChoice($event)"
+                        [hasTextField]="true"
+                        [questionLabel]="'load_bearing_4'"
+                      ></app-question>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="currentStep == 2">
+        <h2 nz-typography>Appliances</h2>
+        <app-question
+          [question]="'Does the customer has a cooktop or a range?'"
+          [questionType]="'non-polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [options]="['Cooktop', 'Range']"
+        ></app-question>
+
+        <app-question
+          [question]="'What do we need to do it?'"
+          [questionType]="'non-polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [options]="[
+            'Remove & Replace',
+            'Relocate',
+            'Add a new one',
+            'Nothing'
+          ]"
+        ></app-question>
+
+        <app-question
+          [question]="'Is it Gas or Electric?'"
+          [questionType]="'non-polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [options]="['Gas', 'Electric']"
+        ></app-question>
+
+        <app-question
+          [question]="'What Type of Detached oven do they Have?'"
+          [questionType]="'non-polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [options]="['Single Oven', 'Double Oven', 'None']"
+          [questionLabel]="'oven_type'"
+        ></app-question>
+
+        <app-question
+          *ngIf="getControl('oven_type')?.value != 'None'"
+          [question]="'Is it Gas or Electric?'"
+          [questionType]="'non-polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [options]="['Gas', 'Electric']"
+        ></app-question>
+
+        <app-question
+          [question]="'What do we need to do with the Oven(s)?'"
+          [questionType]="'non-polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [options]="[
+            'Remove & Replace',
+            'Relocate',
+            'Add a new one',
+            'Nothing'
+          ]"
+        ></app-question>
+
+        <app-question
+          [question]="'What do we need to do with the Microwave?'"
+          [questionType]="'non-polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [options]="[
+            'Remove & Replace',
+            'Relocate',
+            'Add a new one',
+            'Nothing'
+          ]"
+        ></app-question>
+
+        <app-question
+          [question]="'What do we need to do with the Dishwasher?'"
+          [questionType]="'non-polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [options]="[
+            'Remove & Replace',
+            'Relocate',
+            'Add a new one',
+            'Nothing'
+          ]"
+        ></app-question>
+
+        <app-question
+          [question]="'What do we need to do with the Garbage Disposal?'"
+          [questionType]="'non-polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [options]="[
+            'Remove & Replace',
+            'Relocate',
+            'Add a new one',
+            'Nothing'
+          ]"
+        ></app-question>
+      </ng-container>
+
+      <ng-container *ngIf="currentStep == 3">
+        <h2 nz-typography>Plumbing</h2>
+        <app-question
+          [question]="'What do we need to do with the Sink?'"
+          [questionType]="'non-polar'"
+          [options]="[
+            'Remove & Replace',
+            'Relocate',
+            'Add a new one',
+            'Nothing'
+          ]"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <app-question
+          [question]="'What do we need to do with the Potfiller?'"
+          [questionType]="'non-polar'"
+          [options]="[
+            'Remove & Replace',
+            'Relocate',
+            'Add a new one',
+            'Nothing'
+          ]"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <app-question
+          [question]="'Do we need to add any other plumbing Lines?'"
+          [questionType]="'polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [questionLabel]="'need_plumbing_lines'"
+        ></app-question>
+
+        <app-question
+          *ngIf="getControl('need_plumbing_lines')?.value"
+          [question]="'How many plumbing Lines?'"
+          [questionType]="'text-only'"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <app-question
+          [question]="'What do we need to do with the Hood?'"
+          [questionType]="'non-polar'"
+          [options]="[
+            'Remove & Replace',
+            'Relocate',
+            'Add a new one',
+            'Nothing'
+          ]"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <app-question
+          [question]="'Do we need to add any other Vents?'"
+          [questionType]="'polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [questionLabel]="'need_other_vents'"
+        ></app-question>
+
+        <app-question
+          *ngIf="getControl('need_other_vents')?.value"
+          [question]="'How many Vents?'"
+          [questionType]="'text-only'"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+      </ng-container>
+
+      <ng-container *ngIf="currentStep == 4">
+        <h2 nz-typography>Cabinets</h2>
+
+        <nz-form-item class="max-w-[154px]">
+          <nz-form-label
+            ><span
+              nzTooltipTitle="Required"
+              nzTooltipPlacement="right"
+              nz-tooltip
+              class="font-bold"
+            >
+              Wall Cabinets (LnFt)<span class="text-red-600">*</span>
+            </span></nz-form-label
+          >
+          <nz-form-control>
+            <input type="text" nz-input placeholder="Enter" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <app-question
+          [question]="'Wall Cabinets New or Refacing?'"
+          [questionType]="'non-polar'"
+          [options]="['New', 'Refacing']"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <nz-form-item class="max-w-[154px]">
+          <nz-form-label
+            ><span
+              nzTooltipTitle="Required"
+              nzTooltipPlacement="right"
+              nz-tooltip
+              class="font-bold"
+            >
+              Base Cabinets (LnFt)<span class="text-red-600">*</span>
+            </span></nz-form-label
+          >
+          <nz-form-control>
+            <input type="text" nz-input placeholder="Enter" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <app-question
+          [question]="'Base Cabinets New or Refacing?'"
+          [questionType]="'non-polar'"
+          [options]="['New', 'Refacing']"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <h2 nz-typography>Island Cabinets</h2>
+        <app-question
+          [question]="'Does the Customer has or want a kitchen Island?'"
+          [questionType]="'non-polar'"
+          [options]="['Yes, he has one', 'Yes, We will create a new one', 'no']"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <app-question
+          [question]="'Does the Island have a sink?'"
+          [questionType]="'polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <nz-form-item class="max-w-[154px]">
+          <nz-form-label
+            ><span
+              nzTooltipTitle="Required"
+              nzTooltipPlacement="right"
+              nz-tooltip
+              class="font-bold"
+            >
+              Island Cabinets (LnFt)<span class="text-red-600">*</span>
+            </span></nz-form-label
+          >
+          <nz-form-control>
+            <input type="text" nz-input placeholder="Enter" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <app-question
+          [question]="'Island Cabinets New or Refacing?'"
+          [questionType]="'non-polar'"
+          [options]="['New', 'Refacing']"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <app-question
+          [question]="'How many sides for The Island Cabinets?'"
+          [questionType]="'non-polar'"
+          [options]="['1', '2']"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <h2 nz-typography>Counter Tops</h2>
+
+        <app-question
+          [question]="'What type of stone does the customer wants?'"
+          [questionType]="'non-polar'"
+          [options]="[
+            'White Grannite',
+            'Various Grannite',
+            'Black Grannite',
+            'Exotic Grannite',
+            'Quartzite/Taj Mahal',
+            'Exotic Quartzite',
+            'Calacatta Quartz',
+            'Pure White Quartz',
+            'Premium Selection',
+            'Other'
+          ]"
+          (selectedChoice)="getSelectedChoice($event)"
+          [questionLabel]="'material'"
+        ></app-question>
+
+        <nz-form-item
+          *ngIf="getControl('material')?.value == 'Other'"
+          class="max-w-[230px]"
+        >
+          <nz-form-label
+            ><span
+              nzTooltipTitle="Required"
+              nzTooltipPlacement="right"
+              nz-tooltip
+              class="font-bold"
+            >
+              Material<span class="text-red-600">*</span>
+            </span></nz-form-label
+          >
+          <nz-form-control>
+            <input
+              type="text"
+              nz-input
+              placeholder="Please write the specific material"
+            />
+          </nz-form-control>
+        </nz-form-item>
+
+        <app-question
+          [question]="'Does the Customer wants Waterfalls in the cabinets?'"
+          [questionType]="'polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [questionLabel]="'need_cabinet_waterfalls'"
+        ></app-question>
+
+        <app-question
+          *ngIf="getControl('need_cabinet_waterfalls')?.value"
+          [question]="
+            'Does the Cabinets Waterfall will be in one or two sides?'
+          "
+          [questionType]="'non-polar'"
+          [options]="['1', '2']"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+
+        <app-question
+          [question]="
+            'Does the Customer wants Waterfalls in the Kitchen Island?'
+          "
+          [questionType]="'polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [questionLabel]="'need_island_waterfalls'"
+        ></app-question>
+
+        <app-question
+          *ngIf="getControl('need_island_waterfalls')?.value"
+          [question]="'Does the Island Waterfall will be in one or two sides?'"
+          [questionType]="'non-polar'"
+          [options]="['1', '2']"
+          (selectedChoice)="getSelectedChoice($event)"
+        ></app-question>
+      </ng-container>
+
+      <ng-container *ngIf="currentStep == 5">
+        <h2 nz-typography>Flooring</h2>
+        <p nz-typography class="text-base">
+          If the customer wants to change the floor plan Flooring is needed
+        </p>
+
+        <app-question
+          [question]="'Does the Customer wants to change the floor?'"
+          [questionType]="'polar'"
+          (selectedChoice)="getSelectedChoice($event)"
+          [questionLabel]="'change_floor'"
+        ></app-question>
+
+        <ng-container *ngIf="getControl('change_floor')?.value">
+          <app-question
+            [question]="'What is the area?'"
+            [questionType]="'text-only'"
+            (selectedChoice)="getSelectedChoice($event)"
+          ></app-question>
+
+          <app-question
+            [question]="'What Type of Flooring will be removed?'"
+            [questionType]="'non-polar'"
+            [options]="[
+              'Vynil',
+              'Laminate',
+              'Engineering Hardwood',
+              'Solid Hardwood',
+              'Tile',
+              'Porcelain',
+              'Other'
+            ]"
+            (selectedChoice)="getSelectedChoice($event)"
+            [questionLabel]="'remove_flooring_type'"
+          ></app-question>
+
+          <nz-form-item
+            *ngIf="getControl('remove_flooring_type')?.value == 'Other'"
+            class="max-w-[230px]"
+          >
+            <nz-form-label
+              ><span
+                nzTooltipTitle="Required"
+                nzTooltipPlacement="right"
+                nz-tooltip
+                class="font-bold"
+              >
+                Type Of Floor<span class="text-red-600">*</span>
+              </span></nz-form-label
+            >
+            <nz-form-control>
+              <input type="text" nz-input placeholder="Enter" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <app-question
+            [question]="'What Type of Flooring will be installed?'"
+            [questionType]="'non-polar'"
+            [options]="[
+              'Vynil',
+              'Laminate',
+              'Engineering Hardwood',
+              'Solid Hardwood',
+              'Tile',
+              'Porcelain',
+              'Other'
+            ]"
+            (selectedChoice)="getSelectedChoice($event)"
+            [questionLabel]="'install_flooring_type'"
+          ></app-question>
+
+          <nz-form-item
+            *ngIf="getControl('install_flooring_type')?.value == 'Other'"
+            class="max-w-[230px]"
+          >
+            <nz-form-label
+              ><span
+                nzTooltipTitle="Required"
+                nzTooltipPlacement="right"
+                nz-tooltip
+                class="font-bold"
+              >
+                Type Of Floor<span class="text-red-600">*</span>
+              </span></nz-form-label
+            >
+            <nz-form-control>
+              <input type="text" nz-input placeholder="Enter" />
+            </nz-form-control>
+          </nz-form-item>
+        </ng-container>
+      </ng-container>
+    </form>
+  </div>
+</div>
+<!-- <nz-tag [nzColor]="'magenta'">magenta</nz-tag> -->

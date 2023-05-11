@@ -41,6 +41,7 @@ export class QuoteFormComponent implements OnInit {
       change_floor: [false, [Validators.required]],
       remove_flooring_type: ['', [Validators.required]],
       install_flooring_type: ['', [Validators.required]],
+      has_island_cabinet: ['No', [Validators.required]],
     });
   }
 

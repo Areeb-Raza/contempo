@@ -424,45 +424,47 @@
         <app-question
           [question]="'Does the Customer has or want a kitchen Island?'"
           [questionType]="'non-polar'"
-          [options]="['Yes, he has one', 'Yes, We will create a new one', 'no']"
+          [options]="['Yes, he has one', 'Yes, We will create a new one', 'No']"
           (selectedChoice)="getSelectedChoice($event)"
+          [questionLabel]="'has_island_cabinet'"
         ></app-question>
+        <ng-container *ngIf="getControl('has_island_cabinet')?.value != 'No'">
+          <app-question
+            [question]="'Does the Island have a sink?'"
+            [questionType]="'polar'"
+            (selectedChoice)="getSelectedChoice($event)"
+          ></app-question>
 
-        <app-question
-          [question]="'Does the Island have a sink?'"
-          [questionType]="'polar'"
-          (selectedChoice)="getSelectedChoice($event)"
-        ></app-question>
-
-        <nz-form-item class="max-w-[154px]">
-          <nz-form-label
-            ><span
-              nzTooltipTitle="Required"
-              nzTooltipPlacement="right"
-              nz-tooltip
-              class="font-bold"
+          <nz-form-item class="max-w-[154px]">
+            <nz-form-label
+              ><span
+                nzTooltipTitle="Required"
+                nzTooltipPlacement="right"
+                nz-tooltip
+                class="font-bold"
+              >
+                Island Cabinets (LnFt)<span class="text-red-600">*</span>
+              </span></nz-form-label
             >
-              Island Cabinets (LnFt)<span class="text-red-600">*</span>
-            </span></nz-form-label
-          >
-          <nz-form-control>
-            <input type="text" nz-input placeholder="Enter" />
-          </nz-form-control>
-        </nz-form-item>
+            <nz-form-control>
+              <input type="text" nz-input placeholder="Enter" />
+            </nz-form-control>
+          </nz-form-item>
 
-        <app-question
-          [question]="'Island Cabinets New or Refacing?'"
-          [questionType]="'non-polar'"
-          [options]="['New', 'Refacing']"
-          (selectedChoice)="getSelectedChoice($event)"
-        ></app-question>
+          <app-question
+            [question]="'Island Cabinets New or Refacing?'"
+            [questionType]="'non-polar'"
+            [options]="['New', 'Refacing']"
+            (selectedChoice)="getSelectedChoice($event)"
+          ></app-question>
 
-        <app-question
-          [question]="'How many sides for The Island Cabinets?'"
-          [questionType]="'non-polar'"
-          [options]="['1', '2']"
-          (selectedChoice)="getSelectedChoice($event)"
-        ></app-question>
+          <app-question
+            [question]="'How many sides for The Island Cabinets?'"
+            [questionType]="'non-polar'"
+            [options]="['1', '2']"
+            (selectedChoice)="getSelectedChoice($event)"
+          ></app-question>
+        </ng-container>
 
         <h2 nz-typography>Counter Tops</h2>
 
@@ -525,22 +527,26 @@
           (selectedChoice)="getSelectedChoice($event)"
         ></app-question>
 
-        <app-question
-          [question]="
-            'Does the Customer wants Waterfalls in the Kitchen Island?'
-          "
-          [questionType]="'polar'"
-          (selectedChoice)="getSelectedChoice($event)"
-          [questionLabel]="'need_island_waterfalls'"
-        ></app-question>
+        <ng-container *ngIf="getControl('has_island_cabinet')?.value != 'No'">
+          <app-question
+            [question]="
+              'Does the Customer wants Waterfalls in the Kitchen Island?'
+            "
+            [questionType]="'polar'"
+            (selectedChoice)="getSelectedChoice($event)"
+            [questionLabel]="'need_island_waterfalls'"
+          ></app-question>
 
-        <app-question
-          *ngIf="getControl('need_island_waterfalls')?.value"
-          [question]="'Does the Island Waterfall will be in one or two sides?'"
-          [questionType]="'non-polar'"
-          [options]="['1', '2']"
-          (selectedChoice)="getSelectedChoice($event)"
-        ></app-question>
+          <app-question
+            *ngIf="getControl('need_island_waterfalls')?.value"
+            [question]="
+              'Does the Island Waterfall will be in one or two sides?'
+            "
+            [questionType]="'non-polar'"
+            [options]="['1', '2']"
+            (selectedChoice)="getSelectedChoice($event)"
+          ></app-question>
+        </ng-container>
       </ng-container>
 
       <ng-container *ngIf="currentStep == 5">

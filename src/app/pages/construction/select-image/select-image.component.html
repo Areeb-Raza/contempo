@@ -1,0 +1,62 @@
+<nz-list nzItemLayout="vertical">
+  <nz-list-item *ngFor="let file of imageFiles; index as i">
+    <nz-list-item-meta>
+      <nz-list-item-meta-title>
+        {{ file.imageFile.name }}</nz-list-item-meta-title
+      >
+    </nz-list-item-meta>
+    <ul nz-list-item-actions>
+      <nz-list-item-action>
+        <a class="flex items-center text-[#a9a9a9]" (click)="createModal(i)"
+          >Edit<span
+            class="ml-0.5"
+            nz-icon
+            nzType="edit"
+            nzTheme="twotone"
+          ></span
+        ></a>
+      </nz-list-item-action>
+      <nz-list-item-action>
+        <a class="flex items-center text-[#a9a9a9]" (click)="removeFile(i)"
+          >Delete<span
+            class="ml-0.5 text-[#ce0000]"
+            nz-icon
+            nzType="delete"
+          ></span
+        ></a>
+      </nz-list-item-action>
+    </ul>
+    <nz-list-item-extra>
+      <img width="100" alt="logo" [src]="file.imageDataURL" />
+    </nz-list-item-extra>
+  </nz-list-item>
+</nz-list>
+
+<div nz-row nzJustify="end" class="mt-4">
+  <button
+    nz-button
+    nzType="primary"
+    type="button"
+    nzGhost
+    (click)="fileUpload.click()"
+  >
+    Add Image
+  </button>
+  <!-- <button
+    nz-col
+    *ngIf="files.length > 0"
+    nz-button
+    nzType="primary"
+    type="button"
+    nzGhost
+  >
+    Upload Images
+  </button> -->
+  <input
+    class="hidden"
+    type="file"
+    accept="image/*"
+    (change)="onFileSelected($event)"
+    #fileUpload
+  />
+</div>

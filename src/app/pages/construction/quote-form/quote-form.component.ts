@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-quote-form',
@@ -14,6 +15,7 @@ export class QuoteFormComponent implements OnInit {
   questions: Array<string> = [];
   isRenderNext: boolean = false;
   currentStep: number = 1;
+  fileList: NzUploadFile[] = [];
 
   constructor(private fb: FormBuilder) {}
   ngOnInit(): void {
@@ -52,9 +54,6 @@ export class QuoteFormComponent implements OnInit {
   getSelectedChoice = ($event: any) => {
     console.log(typeof $event);
     console.log($event);
-    if (typeof $event.value == 'boolean') {
-      this.isRenderNext = $event.value;
-    }
     this.validateForm.get($event.label)?.setValue($event.value);
   };
 
@@ -63,10 +62,10 @@ export class QuoteFormComponent implements OnInit {
   };
 
   incrementcurrentStep = () => {
-    if (this.currentStep != 5) this.currentStep += 1;
+    if (this.currentStep < 5) this.currentStep += 1;
   };
 
   decrementcurrentStep = () => {
-    this.currentStep -= 1;
+    if (this.currentStep > 1) this.currentStep -= 1;
   };
 }

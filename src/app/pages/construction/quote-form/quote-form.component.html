@@ -16,35 +16,17 @@
       (ngSubmit)="submitForm()"
       nzLayout="vertical"
     >
-      <div nz-row [nzGutter]="[8, 0]" class="my-2" nzJustify="space-between">
-        <div nz-col>
+      <div nz-row [nzGutter]="[8, 0]" class="my-2" nzJustify="start">
+        <div nz-col *ngIf="currentStep != 1">
           <button
             nz-button
             nzType="primary"
             nzGhost
             class="w-[120px]"
-            [disabled]="currentStep == 1"
             (click)="decrementcurrentStep()"
           >
             <span nz-icon nzType="left" class="align-baseline"></span>
             Previous
-          </button>
-        </div>
-        <div nz-col>
-          <button
-            (click)="incrementcurrentStep()"
-            nz-button
-            nzType="primary"
-            class="w-[120px]"
-            [disabled]="!nextButton"
-          >
-            {{ currentStep == 5 ? "Submit" : "Next" }}
-            <span
-              *ngIf="currentStep != 5"
-              nz-icon
-              nzType="right"
-              class="align-baseline"
-            ></span>
           </button>
         </div>
       </div>
@@ -209,6 +191,7 @@
             </ng-container>
           </ng-container>
         </ng-container>
+        <app-select-image></app-select-image>
       </ng-container>
 
       <ng-container *ngIf="currentStep == 2">
@@ -640,7 +623,24 @@
           </nz-form-item>
         </ng-container>
       </ng-container>
+      <button
+        (click)="incrementcurrentStep()"
+        nz-button
+        nzType="primary"
+        class="w-[120px]"
+        [disabled]="!nextButton"
+        nzBlock
+      >
+        {{ currentStep == 5 ? "Submit" : "Next" }}
+        <span
+          *ngIf="currentStep != 5"
+          nz-icon
+          nzType="right"
+          class="align-baseline"
+        ></span>
+      </button>
     </form>
   </div>
 </div>
+<!-- <app-image-editor></app-image-editor> -->
 <!-- <nz-tag [nzColor]="'magenta'">magenta</nz-tag> -->

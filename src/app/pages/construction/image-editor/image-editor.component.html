@@ -1,0 +1,21 @@
+<!-- <div class="w-[200px]"><div #editor></div></div> -->
+<div #editor class="h-[600px]"></div>
+<!-- <div #editor></div> -->
+<div nz-row nzJustify="end" [nzGutter]="[8, 8]" class="mt-2">
+  <div nz-col>
+    <button nz-button nzType="primary" nzGhost (click)="closeModal('save')">
+      Save Changes
+    </button>
+  </div>
+  <div nz-col>
+    <button
+      nz-button
+      nzType="primary"
+      nzGhost
+      nzDanger
+      (click)="closeModal('discard')"
+    >
+      Discard Changes
+    </button>
+  </div>
+</div>

@@ -15,9 +15,19 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAffixModule } from 'ng-zorro-antd/affix';
 import { QuestionComponent } from './question/question.component';
+import { ImageEditorComponent } from './image-editor/image-editor.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { SelectImageComponent } from './select-image/select-image.component';
+import { NzListModule } from 'ng-zorro-antd/list';
 
 @NgModule({
-  declarations: [QuoteFormComponent, QuestionComponent],
+  declarations: [
+    QuoteFormComponent,
+    QuestionComponent,
+    ImageEditorComponent,
+    SelectImageComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -34,6 +44,9 @@ import { QuestionComponent } from './question/question.component';
     NzIconModule,
     NzAffixModule,
     NzTagModule,
+    NzUploadModule,
+    NzListModule,
   ],
+  providers: [NzModalService],
 })
 export class ConstructionModule {}

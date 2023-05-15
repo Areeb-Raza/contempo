@@ -1,16 +1,10 @@
 <nz-list nzItemLayout="vertical">
-  <nz-list-item *ngFor="let file of images; index as i">
+  <nz-list-item *ngFor="let file of imageFiles; index as i">
     <nz-list-item-meta>
       <nz-list-item-meta-title>
-        {{ i + 1 }}.&nbsp;{{ file.imageFile.name }}</nz-list-item-meta-title
+        {{ file.imageFile.name }}</nz-list-item-meta-title
       >
-      <nz-list-item-meta-description>
-        <app-image-tags
-          (selectedTags)="getSelectedTags($event, i)"
-        ></app-image-tags
-      ></nz-list-item-meta-description>
     </nz-list-item-meta>
-
     <ul nz-list-item-actions>
       <nz-list-item-action>
         <a class="flex items-center text-[#a9a9a9]" (click)="createModal(i)"

@@ -1,5 +1,4 @@
-:host ::ng-deep {
-  nz-tag > span {
-    vertical-align: 0.125em;
-  }
+::ng-deep .image-editor .ant-modal-footer {
+  background: #1e1e1e;
+  border-top: none;
 }

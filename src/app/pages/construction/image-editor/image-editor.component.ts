@@ -45,10 +45,14 @@ export class ImageEditorComponent implements AfterViewInit {
     //     this.tuiImageEditor.addText('init text');
     // });
 
-    this.tuiImageEditor.loadImageFromFile(this.imageFile, '').then(() => {
-      // @ts-ignore
-      this.tuiImageEditor.ui.activeMenuEvent();
-    });
+    this.tuiImageEditor
+      .loadImageFromFile(this.imageFile, 'My example picture')
+      .then(() => {
+        // @ts-ignore
+        this.tuiImageEditor.ui.activeMenuEvent();
+        console.log(this.modal);
+        // this.modal.close();
+      });
   }
 
   closeModal = (type: string) => {

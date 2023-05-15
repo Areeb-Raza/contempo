@@ -191,7 +191,6 @@
             </ng-container>
           </ng-container>
         </ng-container>
-        <app-select-image></app-select-image>
       </ng-container>
 
       <ng-container *ngIf="currentStep == 2">
@@ -623,6 +622,11 @@
           </nz-form-item>
         </ng-container>
       </ng-container>
+
+      <ng-container *ngIf="currentStep == 6"
+        ><h2 nz-typography>Images</h2>
+        <app-select-image></app-select-image
+      ></ng-container>
       <button
         (click)="incrementcurrentStep()"
         nz-button
@@ -631,9 +635,9 @@
         [disabled]="!nextButton"
         nzBlock
       >
-        {{ currentStep == 5 ? "Submit" : "Next" }}
+        {{ currentStep == 6 ? "Submit" : "Next" }}
         <span
-          *ngIf="currentStep != 5"
+          *ngIf="currentStep != 6"
           nz-icon
           nzType="right"
           class="align-baseline"

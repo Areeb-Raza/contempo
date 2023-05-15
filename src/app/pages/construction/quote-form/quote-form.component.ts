@@ -62,7 +62,7 @@ export class QuoteFormComponent implements OnInit {
   };
 
   incrementcurrentStep = () => {
-    if (this.currentStep < 5) this.currentStep += 1;
+    if (this.currentStep < 6) this.currentStep += 1;
   };
 
   decrementcurrentStep = () => {

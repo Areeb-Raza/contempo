@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ImageEditorComponent } from '../image-editor/image-editor.component';
 
@@ -8,7 +8,8 @@ import { ImageEditorComponent } from '../image-editor/image-editor.component';
   styleUrls: ['./select-image.component.scss'],
 })
 export class SelectImageComponent implements OnInit {
-  imageFiles: any[] = [];
+  images: any[] = [];
+
   constructor(private modalService: NzModalService) {}
 
   ngOnInit(): void {}
@@ -21,17 +22,18 @@ export class SelectImageComponent implements OnInit {
       reader.readAsDataURL(file);
 
       reader.onload = (event) => {
-        let imageFile = {
+        let image = {
           imageFile: file,
           imageDataURL: reader.result,
+          imageTags: [],
         };
-        this.imageFiles.push(imageFile);
+        this.images.push(image);
       };
     }
   }
 
   createModal(fileIndex: number) {
-    let imageFile = this.imageFiles[fileIndex].imageFile;
+    let imageFile = this.images[fileIndex].imageFile;
     const modal = this.modalService.create({
       nzContent: ImageEditorComponent,
       nzClassName: 'image-editor',
@@ -51,12 +53,17 @@ export class SelectImageComponent implements OnInit {
 
     modal.afterClose.subscribe((res: any) => {
       if (res != undefined) {
-        this.imageFiles[fileIndex].imageDataURL = res;
+        this.images[fileIndex].imageDataURL = res;
       }
     });
   }
 
   removeFile(index: number) {
-    this.imageFiles.splice(index, 1);
+    this.images.splice(index, 1);
   }
+
+  getSelectedTags = ($event: Array<string>, index: number) => {
+    this.images[index].imageTags = $event;
+    console.log(this.images);
+  };
 }

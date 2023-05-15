@@ -20,6 +20,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { SelectImageComponent } from './select-image/select-image.component';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { ImageTagsComponent } from './image-tags/image-tags.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
     QuestionComponent,
     ImageEditorComponent,
     SelectImageComponent,
+    ImageTagsComponent,
   ],
   imports: [
     CommonModule,

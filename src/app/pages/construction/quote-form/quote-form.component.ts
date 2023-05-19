@@ -14,7 +14,7 @@ export class QuoteFormComponent implements OnInit {
   questionDefaultValue = '1';
   questions: Array<string> = [];
   isRenderNext: boolean = false;
-  currentStep: number = 1;
+  currentStep: number = 6;
   fileList: NzUploadFile[] = [];
 
   constructor(private fb: FormBuilder) {}

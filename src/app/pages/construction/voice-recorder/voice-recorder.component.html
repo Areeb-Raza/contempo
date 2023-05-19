@@ -1,0 +1,23 @@
+<div nz-row class="mt-4">
+  <span class="mt-[5px] mr-2">{{
+    isRecording ? "Recording..." : "Record voice note"
+  }}</span>
+  <button
+    [nzTooltipTitle]="isRecording ? 'Stop Recording' : 'Start Recording'"
+    nzTooltipPlacement="right"
+    nz-tooltip
+    nz-button
+    nz-type="default"
+    nzShape="circle"
+    [class]="isRecording ? 'Rec' : ''"
+    type="button"
+    nzDanger
+    (click)="record()"
+  >
+    <span nz-icon [nzType]="'audio'" nzTheme="outline"></span>
+  </button>
+</div>
+<div nz-row [class]="audioUrl == '' ? 'hidden' : ''">
+  <!-- <span>Saved Recording</span> -->
+  <audio class="h-[35px] mt-4" #player controls></audio>
+</div>

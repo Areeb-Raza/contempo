@@ -7,13 +7,14 @@
       <nz-list-item-meta-description>
         <app-image-tags
           (selectedTags)="getSelectedTags($event, i)"
-        ></app-image-tags
-      ></nz-list-item-meta-description>
+        ></app-image-tags>
+        <app-voice-recorder></app-voice-recorder>
+      </nz-list-item-meta-description>
     </nz-list-item-meta>
-
-    <ul nz-list-item-actions>
-      <nz-list-item-action>
-        <a class="flex items-center text-[#a9a9a9]" (click)="createModal(i)"
+    <nz-list-item-extra>
+      <img class="rounded" width="110" [src]="file.imageDataURL" />
+      <div class="mt-4">
+        <a class="text-[#a9a9a9]" (click)="createModal(i)"
           >Edit<span
             class="ml-0.5"
             nz-icon
@@ -21,19 +22,15 @@
             nzTheme="twotone"
           ></span
         ></a>
-      </nz-list-item-action>
-      <nz-list-item-action>
-        <a class="flex items-center text-[#a9a9a9]" (click)="removeFile(i)"
+        <nz-divider nzType="vertical"></nz-divider>
+        <a class="text-[#a9a9a9]" (click)="removeFile(i)"
           >Delete<span
             class="ml-0.5 text-[#ce0000]"
             nz-icon
             nzType="delete"
           ></span
         ></a>
-      </nz-list-item-action>
-    </ul>
-    <nz-list-item-extra>
-      <img width="100" alt="logo" [src]="file.imageDataURL" />
+      </div>
     </nz-list-item-extra>
   </nz-list-item>
 </nz-list>

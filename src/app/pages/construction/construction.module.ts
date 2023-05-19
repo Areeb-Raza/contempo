@@ -21,6 +21,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { SelectImageComponent } from './select-image/select-image.component';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { ImageTagsComponent } from './image-tags/image-tags.component';
+import { VoiceRecorderComponent } from './voice-recorder/voice-recorder.component';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { ImageTagsComponent } from './image-tags/image-tags.component';
     ImageEditorComponent,
     SelectImageComponent,
     ImageTagsComponent,
+    VoiceRecorderComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +51,7 @@ import { ImageTagsComponent } from './image-tags/image-tags.component';
     NzTagModule,
     NzUploadModule,
     NzListModule,
+    NzDividerModule,
   ],
   providers: [NzModalService],
 })

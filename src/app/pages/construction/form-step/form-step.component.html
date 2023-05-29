@@ -1,0 +1,173 @@
+<div
+  *ngIf="currentStep != 1"
+  nz-row
+  [nzGutter]="[8, 0]"
+  class="my-2"
+  nzJustify="start"
+>
+  <div nz-col>
+    <button
+      nz-button
+      nzType="primary"
+      nzGhost
+      class="w-[120px]"
+      (click)="decrementcurrentStep()"
+      type="button"
+    >
+      <span nz-icon nzType="left" class="align-baseline"></span>
+      Previous
+    </button>
+  </div>
+</div>
+<form [formGroup]="form">
+  <ng-container *ngIf="stepId == 1">
+    <nz-form-item>
+      <nz-form-label for=""
+        ><span
+          class="text-lg font-medium"
+          nzTooltipTitle="Required"
+          nzTooltipPlacement="right"
+          nz-tooltip
+        >
+          Sales Person<span class="text-red-600">*</span></span
+        ></nz-form-label
+      >
+      <nz-select
+        class="w-full"
+        nzPlaceHolder="Select"
+        formControlName="salesPerson"
+      >
+        <nz-option nzValue="jack" nzLabel="Jay"></nz-option>
+        <nz-option nzValue="lucy" nzLabel="Morgon"></nz-option>
+      </nz-select>
+    </nz-form-item>
+    <nz-form-label
+      ><span
+        class="text-xl font-medium"
+        nzTooltipTitle="Required"
+        nzTooltipPlacement="right"
+        nz-tooltip
+      >
+        Customer Information<span class="text-red-600">*</span>
+      </span></nz-form-label
+    >
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group>
+          <input
+            type="text"
+            nz-input
+            formControlName="fullName"
+            placeholder="Full Name"
+            nzSize="large"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group>
+          <input
+            type="number"
+            nz-input
+            formControlName="phoneNumber"
+            placeholder="Phone Number"
+            nzSize="large"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group>
+          <input
+            type="email"
+            nz-input
+            formControlName="email"
+            placeholder="Email"
+            nzSize="large"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group>
+          <input
+            type="textarea"
+            nz-input
+            formControlName="address"
+            placeholder="Address"
+            nzSize="large"
+          />
+        </nz-input-group>
+      </nz-form-control> </nz-form-item
+  ></ng-container>
+  <h2 nz-typography>{{ currentStepData.label | titlecase }}</h2>
+  <ng-container *ngFor="let question of currentStepData.questions; index as i">
+    <app-question
+      *ngIf="
+        question.related_question == null ||
+        getControlValue(question.related_question)
+      "
+      [question]="question"
+    ></app-question>
+    <!-- *ngIf="
+    question.related_question == null ||
+    getControlValue(question.related_question) == 1 ||
+    (question.has_input && getControlValue(question.related_question+'_input') == 43)
+  " -->
+    <!-- <div nz-row class="mb-[22px]">
+      <div nz-col nzSpan="24">
+        <nz-form-label
+          ><span
+            class="text-lg font-medium"
+            nzTooltipTitle="Required"
+            nzTooltipPlacement="right"
+            nz-tooltip
+            [innerText]="question.question"
+          >
+            <span class="text-red-600">*</span></span
+          ></nz-form-label
+        >
+      </div>
+      <div nz-col>
+        <ng-container>
+          <nz-radio-group>
+            <div nz-row [nzGutter]="[0, 8]" class="mt-2">
+              <div
+                nz-col
+                nzSpan="24"
+                *ngFor="let option of question.options; index as i"
+              >
+                <label nz-radio-button [nzValue]="option.id">
+                  <nz-tag [nzColor]="'#108ee9'">{{ i }}</nz-tag>
+                  {{ option.label }}
+                </label>
+              </div>
+            </div>
+          </nz-radio-group>
+        </ng-container>
+      </div>
+    </div> -->
+  </ng-container>
+</form>
+<button
+  (click)="incrementcurrentStep()"
+  nz-button
+  nzType="primary"
+  class="w-[120px]"
+  nzBlock
+  type="button"
+>
+  {{ currentStep == data.length ? "Submit" : "Next" }}
+  <span
+    *ngIf="currentStep != data.length"
+    nz-icon
+    nzType="right"
+    class="align-baseline"
+  ></span>
+</button>

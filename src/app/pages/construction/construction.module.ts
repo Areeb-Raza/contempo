@@ -23,6 +23,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { ImageTagsComponent } from './image-tags/image-tags.component';
 import { VoiceRecorderComponent } from './voice-recorder/voice-recorder.component';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { FormStepComponent } from './form-step/form-step.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     SelectImageComponent,
     ImageTagsComponent,
     VoiceRecorderComponent,
+    FormStepComponent,
   ],
   imports: [
     CommonModule,

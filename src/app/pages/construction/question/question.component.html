@@ -6,48 +6,38 @@
         nzTooltipTitle="Required"
         nzTooltipPlacement="right"
         nz-tooltip
+        [innerText]="question.question"
       >
-        {{ question }}
         <span class="text-red-600">*</span></span
       ></nz-form-label
     >
   </div>
   <div nz-col>
-    <div nz-row [nzGutter]="[8, 8]">
-      <div nz-col nzSpan="24" *ngIf="questionType == 'polar'">
-        <nz-radio-group nzButtonStyle="solid" [formControl]="answer">
-          <div nz-row [nzGutter]="[8, 0]" class="mt-2">
-            <div nz-col>
-              <label nz-radio-button [nzValue]="true"
-                >Yes<span
-                  nz-icon
-                  nzType="check"
-                  nzTheme="outline"
-                  class="align-baseline ml-2"
-                ></span
-              ></label>
-            </div>
-            <div nz-col>
-              <label nz-radio-button [nzValue]="false" class="align-baseline"
-                >No<span
-                  nz-icon
-                  nzType="close"
-                  nzTheme="outline"
-                  class="align-baseline ml-2"
-                ></span
-              ></label>
-            </div>
+    <ng-container>
+      <nz-radio-group [formControl]="answer">
+        <div nz-row [nzGutter]="[0, 8]" class="mt-2">
+          <div
+            nz-col
+            nzSpan="24"
+            *ngFor="let option of question.options; index as i"
+          >
+            <label nz-radio-button [nzValue]="option.id">
+              <nz-tag [nzColor]="'#108ee9'">{{ numberToAlphabet(i) }}</nz-tag>
+              {{ option.label }}
+            </label>
           </div>
-        </nz-radio-group>
-      </div>
-      <div nz-col *ngIf="hasTextField || questionType == 'text-only'">
-        <nz-form-item class="max-w-[154px] m-0">
+        </div>
+      </nz-radio-group>
+    </ng-container>
+    <div nz-row [nzGutter]="[8, 8]">
+      <div nz-col *ngIf="question.has_input" class="mt-4">
+        <nz-form-item class="w-[235px] m-0">
           <nz-form-control>
             <nz-input-group>
               <input
                 type="text"
                 nz-input
-                placeholder="Linear Feet Wall1"
+                [placeholder]="question.input_title"
                 nzSize="large"
                 [formControl]="text_field"
               />
@@ -56,20 +46,5 @@
         </nz-form-item>
       </div>
     </div>
-
-    <ng-container *ngIf="questionType == 'non-polar'">
-      <nz-radio-group [formControl]="answer">
-        <div nz-row [nzGutter]="[0, 8]" class="mt-2">
-          <div nz-col nzSpan="24" *ngFor="let option of options; index as i">
-            <label nz-radio-button [nzValue]="option">
-              <nz-tag [nzColor]="'#108ee9'">{{ numberToAlphabet(i) }}</nz-tag>
-              {{ option }}
-            </label>
-          </div>
-        </div>
-      </nz-radio-group>
-    </ng-container>
-
-    <ng-container *ngIf="questionType == 'text-only'"></ng-container>
   </div>
 </div>

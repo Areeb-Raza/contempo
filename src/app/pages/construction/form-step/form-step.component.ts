@@ -1,23 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { Router, ParamMap, ActivatedRoute } from '@angular/router';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { FormProvider } from './form-provider';
+import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { FormProvider } from '../quote-form/form-provider';
 
 @Component({
-  selector: 'app-quote-form',
-  templateUrl: './quote-form.component.html',
-  styleUrls: ['./quote-form.component.scss'],
-  providers: [{ provide: FormProvider, useExisting: QuoteFormComponent }],
+  selector: 'app-form-step',
+  templateUrl: './form-step.component.html',
+  styleUrls: ['./form-step.component.scss'],
 })
-export class QuoteFormComponent extends FormProvider implements OnInit {
-  public data = [
+export class FormStepComponent implements OnInit {
+  stepId!: any;
+  currentStepData!: any;
+  currentStep: any = 1;
+  form!: FormGroup;
+  data = [
     {
       id: 1,
       label: 'GENERAL CONDITIONS TOTAL',
@@ -793,115 +789,54 @@ export class QuoteFormComponent extends FormProvider implements OnInit {
     },
   ];
 
-  validateForm!: FormGroup;
-  prevButton: boolean = true;
-  nextButton: boolean = true;
-  questionDefaultValue = '1';
-  questions: Array<string> = [];
-  isRenderNext: boolean = false;
-
-  fileList: NzUploadFile[] = [];
-  quoteForm: FormGroup = new FormGroup({});
-
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    super();
-  }
-
+    private route: ActivatedRoute,
+    private formProvider: FormProvider,
+    private router: Router
+  ) {}
   ngOnInit(): void {
-    // this.quoteForm = new FormGroup({
-    //   default: new FormGroup({
-    //     fullName: new FormControl(null, Validators.required),
-    //     phoneNumber: new FormControl(null, Validators.required),
-    //     email: new FormControl(null, Validators.required),
-    //     address: new FormControl(null, Validators.required),
-    //   }),
-    // });
-
-    this.buildFormGroup();
-
-    this.validateForm = this.fb.group({
-      fullName: [null, [Validators.required]],
-      phoneNumber: [null, [Validators.required]],
-      email: [null, [Validators.required]],
-      address: [null, [Validators.required]],
-
-      change_floor_plan: [false, [Validators.required]],
-      remove_walls: [false, [Validators.required]],
-      load_bearing_1: ['', [Validators.required]],
-      remove_second_wall: ['', [Validators.required]],
-      load_bearing_2: ['', [Validators.required]],
-      remove_third_wall: ['', [Validators.required]],
-      load_bearing_3: ['', [Validators.required]],
-      remove_fourth_wall: ['', [Validators.required]],
-      load_bearing_4: ['', [Validators.required]],
-      oven_type: ['None', [Validators.required]],
-      need_plumbing_lines: [false, [Validators.required]],
-      need_other_vents: [false, [Validators.required]],
-      material: ['', [Validators.required]],
-      need_cabinet_waterfalls: [false, [Validators.required]],
-      need_island_waterfalls: [false, [Validators.required]],
-      change_floor: [false, [Validators.required]],
-      remove_flooring_type: ['', [Validators.required]],
-      install_flooring_type: ['', [Validators.required]],
-      has_island_cabinet: ['No', [Validators.required]],
+    this.route.paramMap.subscribe((params) => {
+      this.stepId = params.get('id');
+      this.currentStep = parseInt(this.stepId);
+      this.currentStepData = this.data[this.currentStep - 1];
+      this.form = this.formProvider
+        .getForm()
+        .get(`step_${this.stepId}`) as FormGroup;
+      // console.log(this.form);
+      console.log(this.currentStepData);
     });
   }
 
-  buildFormGroup(): void {
-    this.data.forEach((category) => {
-      if (!this.quoteForm.controls[category.id]) {
-        const group = this.fb.group({});
-        const groupKey = 'step_' + category.id;
-        if (category.id == 1) {
-          group.addControl(
-            'salesPerson',
-            new FormControl(null, Validators.required)
-          );
-          group.addControl(
-            'fullName',
-            new FormControl(null, Validators.required)
-          );
-          group.addControl(
-            'phoneNumber',
-            new FormControl(null, Validators.required)
-          );
-          group.addControl('email', new FormControl(null, Validators.required));
-          group.addControl(
-            'address',
-            new FormControl(null, Validators.required)
-          );
-        }
-        category.questions.forEach((question) => {
-          group.addControl(
-            question.id.toString(),
-            new FormControl(null, Validators.required)
-          );
-          if (question.has_input) {
-            group.addControl(
-              question.id.toString() + '_input',
-              new FormControl('', Validators.required)
-            );
-          }
-        });
-        this.quoteForm.addControl(groupKey, group);
-      }
-    });
-    console.log(this.quoteForm);
-  }
+  // getSelectedChoice = (selectedChoice: any) => {
+  //   // console.log(selectedChoice);
+  //   // this.form
+  //   //   .get(selectedChoice.key.toString())
+  //   //   ?.setValue(selectedChoice.value);
+  // };
 
-  submitForm(): void {
-    console.log('submit', this.validateForm.value);
-  }
+  getControlValue = (controlName: any) => {
+    // for (let index = 2; index > controlName; index--) {
+    //   this.form.get(index.toString())?.value;
 
-  getControl = (controlName: string) => {
-    return this.validateForm.get(controlName);
+    // }
+    // console.log(controlName);
+    // console.log(this.form.get(controlName.toString())?.value);
+    return this.form.get(controlName.toString())?.value;
+    // return 1;
   };
 
-  getForm(): FormGroup {
-    return this.quoteForm;
+  incrementcurrentStep = () => {
+    if (this.currentStep < this.data.length) this.currentStep += 1;
+    this.navigateToStep(this.currentStep);
+  };
+
+  decrementcurrentStep = () => {
+    if (this.currentStep > 1) this.currentStep -= 1;
+    this.navigateToStep(this.currentStep);
+  };
+
+  navigateToStep(stepNumber: number) {
+    const stepUrl = `new-quote/step/${stepNumber}`;
+    this.router.navigate([stepUrl]);
   }
 }
